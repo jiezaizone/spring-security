@@ -30,10 +30,9 @@ public class ValidateCodeController {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-//    public static final String SESSION_KEY = "SESSION_IMAGE_KEY";
-//
-//    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
+    /**
+     * 收集系统中所有的 {@link ValidateCodeProcessor} 接口的实现。
+     */
     @Autowired
     private Map<String, ValidateCodeProcessor> validateCodeProcessors;
 

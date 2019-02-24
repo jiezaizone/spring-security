@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -56,6 +57,8 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
                 .successHandler(isuwangAuthenticationSuccessHandler)
                 .failureHandler(isuwangAuthenticationFailureHandler);
 
+//        http.authorizeRequests().antMatchers("/oauth/**").permitAll();
+
         http //.apply(validateCodeSecurityConfig)
 //                .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
@@ -74,4 +77,5 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
                 .and()
                 .csrf().disable();
     }
+
 }

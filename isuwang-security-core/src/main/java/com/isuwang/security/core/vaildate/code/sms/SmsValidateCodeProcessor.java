@@ -16,10 +16,16 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
     @Autowired
     private SmsCodeSender smsCodeSender;
 
+    // 重写短信校验码校验方法 （改用dapeng接口调用）
     @Override
     protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {
         String mobile = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), "mobile");
         smsCodeSender.send(mobile, validateCode.getCode());
     }
 
+    // 重写短信验证码校验方法 （改用dapeng接口调用）
+    @Override
+    public void validate(ServletWebRequest request) {
+        super.validate(request);
+    }
 }

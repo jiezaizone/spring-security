@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * 短信验证码校验拦截器
  * Processes an authentication form submission. Called
  * {@code AuthenticationProcessingFilter} prior to Spring Security 3.0.
  * <p>
@@ -50,11 +51,13 @@ public class SmsCodeAuthenticationFilter extends
     public static final String ISUWANG_FORM_MOBILE_KEY = "mobile";
 
     private String mobileParameter = ISUWANG_FORM_MOBILE_KEY;
+    // 该过滤器只处理post请求
     private boolean postOnly = true;
 
     // ~ Constructors
     // ===================================================================================================
 
+    // 要处理的短信校验码登录的请求地址
     public SmsCodeAuthenticationFilter() {
         super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
     }

@@ -16,6 +16,9 @@ import java.util.Map;
 @Component
 public class ValidateCodeProcessorHandler {
 
+    /**
+     * 收集系统中所有的 {@link ValidateCodeProcessor} 接口的实现。
+     */
     @Autowired
     private Map<String, ValidateCodeProcessor> validateCodeProcessors;
 

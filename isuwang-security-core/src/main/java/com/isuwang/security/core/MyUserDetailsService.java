@@ -1,5 +1,6 @@
 package com.isuwang.security.core;
 
+import com.isuwang.security.core.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyUserDetailsService implements UserDetailsService , SocialUserDetailsService {
     private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -37,12 +41,14 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         return buildUser(userId);
     }
 
-    private SocialUserDetails buildUser(String userId) {
-        // TODO 模拟数据库登录方式
-        logger.info("登录用户名：" + userId);
-        String password = passwordEncoder.encode("123456");
-        logger.info("数据库密码是：" + password);
-        return new SocialUser(userId, password,
+    private SocialUserDetails buildUser(String username) {
+//        // TODO 模拟数据库登录方式
+//        logger.info("登录用户名：" + userId);
+//        String password = passwordEncoder.encode("123456");
+////        String password = "e10adc3949ba59abbe56e057f20f883e";
+        User user = userService.getUserByUserName(username);
+        logger.info("数据库密码是：" + user.getPassword());
+        return new SocialUser(username, user.getPassword(),
                 true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
     }
