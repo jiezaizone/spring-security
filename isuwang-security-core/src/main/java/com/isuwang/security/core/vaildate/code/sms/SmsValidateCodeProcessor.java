@@ -26,6 +26,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
     // 重写短信验证码校验方法 （改用dapeng接口调用）
     @Override
     public void validate(ServletWebRequest request) {
-        super.validate(request);
+//        super.validate(request);
+        // 短信验证码不校验，默认通过
     }
 }

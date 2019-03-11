@@ -1,21 +1,15 @@
 package com.isuwang.security.browser;
 
 import com.isuwang.security.core.config.AbstractChannelSecurityConfig;
-import com.isuwang.security.browser.config.ValidateCodeAuthenticationSecurityConfig;
+import com.isuwang.security.core.vaildate.code.ValidateCodeAuthenticationSecurityConfig;
 import com.isuwang.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.isuwang.security.core.properties.SecurityConstants;
 import com.isuwang.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.authentication.dao.ReflectionSaltSource;
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;

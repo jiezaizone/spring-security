@@ -3,6 +3,7 @@ package com.isuwang.security.app;
 import com.isuwang.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.isuwang.security.core.properties.SecurityConstants;
 import com.isuwang.security.core.properties.SecurityProperties;
+import com.isuwang.security.core.vaildate.code.ValidateCodeAuthenticationSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -37,6 +38,9 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
     private AuthenticationFailureHandler isuwangAuthenticationFailureHandler;
 
     @Autowired
+    private ValidateCodeAuthenticationSecurityConfig validateCodeSecurityConfig;
+
+    @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     /**
@@ -57,10 +61,10 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
                 .successHandler(isuwangAuthenticationSuccessHandler)
                 .failureHandler(isuwangAuthenticationFailureHandler);
 
-//        http.authorizeRequests().antMatchers("/oauth/**").permitAll();
+        http.authorizeRequests().antMatchers("/oauth/**").permitAll();
 
-        http //.apply(validateCodeSecurityConfig)
-//                .and()
+        http.apply(validateCodeSecurityConfig)
+                .and()
                 .apply(smsCodeAuthenticationSecurityConfig)
                 .and()
                 .apply(socialSecurityConfigurer)

@@ -1,4 +1,4 @@
-package com.isuwang.security.browser.config;
+package com.isuwang.security.core.vaildate.code;
 
 import com.isuwang.security.core.vaildate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;

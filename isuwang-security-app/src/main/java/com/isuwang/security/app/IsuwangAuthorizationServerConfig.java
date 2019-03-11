@@ -2,7 +2,6 @@ package com.isuwang.security.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,8 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * 权限配置
@@ -28,7 +26,9 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
     private UserDetailsService userDetailsService;
 
     @Autowired
-    RedisConnectionFactory redisConnectionFactory;
+    private TokenStore tokenStore;
+
+
 
 
     @Override
@@ -36,7 +36,7 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
         endpoints
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
-                .tokenStore(new RedisTokenStore(redisConnectionFactory))
+                .tokenStore(tokenStore)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST);;
     }
 
@@ -46,6 +46,11 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
         clients.inMemory()
                 .withClient("isuwang").secret("isuwang-security")
                 .accessTokenValiditySeconds(7*24*60*60)
+                .authorizedGrantTypes("authorization_code", "refresh_token", "password")
+                .scopes("all")
+        .and()
+                .withClient("kuaisu").secret("kuaisu-security")
+                .accessTokenValiditySeconds(3*60*60)
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("all");
     }
