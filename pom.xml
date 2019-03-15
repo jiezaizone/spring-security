@@ -50,6 +50,14 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.isuwang.security.app.SecurityAppApplication</mainClass>
+                    <!--<fork>true</fork>-->
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
