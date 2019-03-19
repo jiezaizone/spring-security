@@ -3,6 +3,7 @@ package com.isuwang.security.app.contorller;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class OAuthController {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
             tokenStore.removeAccessToken(accessToken);
         }
+    }
+
+    @RequestMapping(value = "/oauth/getCurrentUser", method = RequestMethod.GET )
+    public Object me() {
+        return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
