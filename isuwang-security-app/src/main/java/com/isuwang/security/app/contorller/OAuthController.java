@@ -18,12 +18,13 @@ public class OAuthController {
 
     /**
      * 注销操作
+     *
      * @param request
      * @param token
      */
-    @RequestMapping(value = "/oauth/revoke-token", method = RequestMethod.GET)
+    @RequestMapping(value = "/oauth/revoke-token", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseStatus(HttpStatus.OK)
-    public void logout(HttpServletRequest request, @RequestParam(value="",required=false)String token) {
+    public void logout(HttpServletRequest request, @RequestParam(value = "", required = false) String token) {
 //        String authHeader = request.getHeader("Authorization");
 //        if (authHeader != null) {
 //            String tokenValue = authHeader.replace("Bearer", "").trim();
@@ -31,14 +32,14 @@ public class OAuthController {
 //            tokenStore.removeAccessToken(accessToken);
 //        }
 
-        if(!StringUtils.equals("token","")){
+        if (!StringUtils.equals("token", "")) {
             OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
             tokenStore.removeAccessToken(accessToken);
         }
     }
 
-    @RequestMapping(value = "/oauth/getCurrentUser", method = RequestMethod.GET )
-    public Object me() {
+    @RequestMapping(value = "/oauth/getCurrentUser", method = {RequestMethod.GET, RequestMethod.POST})
+    public Object getCurrentUser() {
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }
