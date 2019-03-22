@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         //根据用户名查找用户信息
         logger.info("form user login name:"+username);
 
-        UserDetails userDetails = null;
+        LoginUser userDetails = null;
         try {
             userDetails =  buildUser(username);
         } catch (SoaException e) {
