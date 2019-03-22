@@ -1,6 +1,7 @@
 package com.isuwang.security.core;
 
 import com.github.dapeng.core.SoaException;
+import com.isuwang.security.core.domain.LoginUser;
 import com.isuwang.security.core.service.UserService;
 import com.isuwang.soa.crmdb.customer.CustomerServiceClient;
 import com.isuwang.soa.crmdb.customer.domain.TCustomer;
@@ -57,7 +58,7 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         return userDetails;
     }
 
-    private SocialUserDetails buildUser(String username) throws SoaException {
+    private LoginUser buildUser(String username) throws SoaException {
 //        // TODO 模拟数据库登录方式
 //        logger.info("登录用户名：" + userId);
 //        String password = passwordEncoder.encode("123456");
@@ -66,8 +67,10 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         TCustomer customer =new CustomerServiceClient().findCustomerByLoginName(username);
         User user = userService.getUserByUserName(username);
         logger.info("数据库密码是：" + user.getPassword());
-        return new SocialUser(username, customer.password,
+        LoginUser loginUser =  new LoginUser(username, customer.password,
                 customer.disable == 0 ? true : false, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
+        loginUser.setCustomerId(customer.getId());
+        return loginUser;
     }
 }
