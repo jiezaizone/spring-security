@@ -47,7 +47,7 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
 //            clients.jdbc(dataSource);
         clients.inMemory()
                 .withClient("isuwang").secret("isuwang-security")
-                .accessTokenValiditySeconds(7*24*60*60)
+                .accessTokenValiditySeconds(30*24*60*60)
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("all")
         .and()
