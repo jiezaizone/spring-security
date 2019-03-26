@@ -43,7 +43,7 @@ public class IsuwangAuthenticationFailureHandler extends SimpleUrlAuthentication
         if(LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())){
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType("application/json;charset=UTF-8");
-            if(StringUtils.equals("坏的凭证", exception.getMessage())) {
+            if(StringUtils.equals("坏的凭证", exception.getMessage()) || StringUtils.equals("Bad credentials", exception.getMessage())) {
                 response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse("账号或密码错误")));
             }else {
                 response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(exception.getMessage())));
