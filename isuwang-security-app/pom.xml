@@ -58,7 +58,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.14</version>
                 <configuration>
-                    <imageName>docker.oa.isuwang.com:5000/product/isuwang-security-app:1.0.1</imageName>
+                    <imageName>docker.oa.isuwang.com:5000/product/isuwang-security-app:1.0.2</imageName>
                     <dockerDirectory>${basedir}/docker</dockerDirectory>
                     <resources>
                         <resource>
