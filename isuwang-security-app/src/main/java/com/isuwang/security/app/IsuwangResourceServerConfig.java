@@ -7,6 +7,7 @@ import com.isuwang.security.core.vaildate.code.ValidateCodeAuthenticationSecurit
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -49,6 +50,8 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
     @Autowired
     private SpringSocialConfigurer socialSecurityConfigurer;
 
+    @Autowired
+    SessionRegistry sessionRegistry;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -61,7 +64,9 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
                 .successHandler(isuwangAuthenticationSuccessHandler)
                 .failureHandler(isuwangAuthenticationFailureHandler);
 
-        http.authorizeRequests().antMatchers("/oauth/**").permitAll();
+        http.authorizeRequests().antMatchers("/oauth/**").permitAll()
+                .and()
+        .sessionManagement().maximumSessions(5).sessionRegistry(sessionRegistry);
 
         http.apply(validateCodeSecurityConfig)
                 .and()
