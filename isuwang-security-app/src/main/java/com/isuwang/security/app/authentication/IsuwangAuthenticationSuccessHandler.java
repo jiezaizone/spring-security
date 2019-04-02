@@ -1,6 +1,7 @@
 package com.isuwang.security.app.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.isuwang.security.core.domain.LoginUser;
 import com.isuwang.security.core.properties.LoginType;
 import com.isuwang.security.core.properties.SecurityProperties;
 import org.apache.commons.collections.MapUtils;
@@ -8,8 +9,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.oauth2.client.token.OAuth2AccessTokenSupport;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -23,6 +27,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 实现该接口，定义security 校验成功后的操作
@@ -45,6 +50,11 @@ public class IsuwangAuthenticationSuccessHandler extends SavedRequestAwareAuthen
 
     @Autowired
     private AuthorizationServerTokenServices authorizationServerTokenServices;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -75,6 +85,12 @@ public class IsuwangAuthenticationSuccessHandler extends SavedRequestAwareAuthen
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
 
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+
+        //登录用户customerId存入redis，用以做在线用户统计
+        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String loginUserRedisKey ="isuwang_security:customer:" + clientId + ":" + loginUser.getCustomerId();
+        redisTemplate.opsForValue().set(loginUserRedisKey, loginUser.getCustomerId());
+        redisTemplate.expire(loginUserRedisKey, token.getExpiresIn(), TimeUnit.SECONDS);
 
         /*
          * 登录返回类型是JSON，则以json返回,否则调用父类方法跳转
