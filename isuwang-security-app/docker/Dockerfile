@@ -1,4 +1,4 @@
-FROM registry.docker-cn.com/library/java
+FROM docker.oa.isuwang.com:5000/system/java
 VOLUME /tmp
 ADD isuwang-security-app-1.0-SNAPSHOT.jar app.jar
 #RUN bash -c 'touch /app.jar'
