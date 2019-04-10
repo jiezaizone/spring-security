@@ -18,6 +18,7 @@
 		</rollingPolicy>
 		<encoder>
 			<pattern>%d{MM-dd HH:mm:ss SSS} %t %p [%X{sessionTid}] - %m%n</pattern>
+			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
 
