@@ -58,6 +58,7 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
 //        super.configure(http);
 
 //        applyPasswordAuthenticationConfig(http);
+        http.sessionManagement().maximumSessions(2); //为同一用户启用允许多个并发会话
         http.formLogin()
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
                 .loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM) //自定义登录请求拦截URL
