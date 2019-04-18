@@ -66,7 +66,10 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
 
         http.authorizeRequests().antMatchers("/oauth/**").permitAll()
                 .and()
-        .sessionManagement().maximumSessions(5).sessionRegistry(sessionRegistry);
+        .sessionManagement()
+                .maximumSessions(100)
+                .expiredUrl("/oauth/getCurrentUser")
+                .sessionRegistry(sessionRegistry); // 为同一个用户开启多个会话
 
         http.apply(validateCodeSecurityConfig)
                 .and()
@@ -84,7 +87,7 @@ public class IsuwangResourceServerConfig extends ResourceServerConfigurerAdapter
                 .anyRequest()  // 所有的请求都要通过验证
                 .authenticated()
                 .and()
-                .sessionManagement().maximumSessions(3); //为同一用户启用允许多个并发会话
+                .csrf().disable();
     }
 
 }
