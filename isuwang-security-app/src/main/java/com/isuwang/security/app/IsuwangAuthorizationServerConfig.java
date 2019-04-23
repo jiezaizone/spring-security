@@ -52,7 +52,7 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
                 .scopes("all")
         .and()
                 .withClient("kuaisu").secret("kuaisu-security")
-                .accessTokenValiditySeconds(3*60*60)
+                .accessTokenValiditySeconds(18*60*60)
                 .authorizedGrantTypes("authorization_code", "refresh_token", "password")
                 .scopes("all");
     }
