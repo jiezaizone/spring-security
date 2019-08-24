@@ -61,12 +61,12 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
     private LoginUser buildUser(String username) throws SoaException {
 //        // TODO 模拟数据库登录方式
 //        logger.info("登录用户名：" + userId);
-//        String password = passwordEncoder.encode("123456");
-////        String password = "e10adc3949ba59abbe56e057f20f883e";
+//        String password = passwordEncoder.encode("425477");
+//        String password = 435477
 
         TCustomer customer =new CustomerServiceClient().findCustomerByLoginName(username);
-        User user = userService.getUserByUserName(username);
-        logger.info("数据库密码是：" + user.getPassword());
+//        User user = userService.getUserByUserName(username);
+        logger.info("数据库密码是：" + customer.password);
         LoginUser loginUser =  new LoginUser(username, customer.password,
                 customer.disable == 0 ? true : false, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));

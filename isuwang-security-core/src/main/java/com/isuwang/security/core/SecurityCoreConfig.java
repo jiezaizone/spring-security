@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.MessageDigestPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.util.DigestUtils;
 
 /**
  * @Configuration 注解为配置类
@@ -33,7 +34,20 @@ public class SecurityCoreConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
 //        return new BCryptPasswordEncoder();
-        return new MessageDigestPasswordEncoder("MD5");
+        PasswordEncoder md5PasswordEncoder = new PasswordEncoder(){
+
+            @Override
+            public String encode(CharSequence rawPassword) {
+                String md5Password = DigestUtils.md5DigestAsHex(rawPassword.toString().getBytes());
+                return md5Password;
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                return encodedPassword.equals(DigestUtils.md5DigestAsHex(rawPassword.toString().getBytes()));
+            }
+        };
+        return md5PasswordEncoder;
     }
 
     /**
