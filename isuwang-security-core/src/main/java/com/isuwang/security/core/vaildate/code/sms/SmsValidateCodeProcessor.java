@@ -65,7 +65,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
             LoginResponse loginResponse = new WechatCustomerBizServiceClient().verifyCodeLogin(verifyCodeRequest);
         } catch (SoaException e) {
             logger.error(e.getMessage(),e);
-            throw new ValidateCodeException("短信登录校验失败");
+            throw new ValidateCodeException(e.getMsg());
         }
         // 短信验证码不校验，默认通过
     }
