@@ -68,7 +68,10 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
 
         try {
             WechatLoginByVerifyCodeRequest verifyCodeRequest = new WechatLoginByVerifyCodeRequest();
-            verifyCodeRequest.phone(mobile).verifyCode(smsCode).wechatOpenid(openId).source(source);
+            verifyCodeRequest.phone(mobile);
+            verifyCodeRequest.verifyCode(smsCode);
+            verifyCodeRequest.wechatOpenid(openId);
+            verifyCodeRequest.source(source);
             LoginResponse loginResponse = new WechatCustomerBizServiceClient().verifyCodeLogin(verifyCodeRequest);
         } catch (SoaException e) {
             logger.error(e.getMessage(),e);
