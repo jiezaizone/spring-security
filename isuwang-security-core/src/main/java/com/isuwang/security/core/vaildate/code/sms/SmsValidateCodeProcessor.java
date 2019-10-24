@@ -41,6 +41,7 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
         String mobile = "";
         String smsCode = "";
         String openId = "";
+        int source = 0;
         try {
             mobile = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
         } catch (ServletRequestBindingException e) {
@@ -58,10 +59,16 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
         } catch (ServletRequestBindingException e) {
             logger.error(e.getMessage(),e);
         }
+        try {
+            source = ServletRequestUtils.getIntParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_SOURCE);
+        } catch (ServletRequestBindingException e) {
+            logger.error(e.getMessage(),e);
+            throw new ValidateCodeException("获取来源的值失败");
+        }
 
         try {
             WechatLoginByVerifyCodeRequest verifyCodeRequest = new WechatLoginByVerifyCodeRequest();
-            verifyCodeRequest.phone(mobile).verifyCode(smsCode).wechatOpenid(openId);
+            verifyCodeRequest.phone(mobile).verifyCode(smsCode).wechatOpenid(openId).source(source);
             LoginResponse loginResponse = new WechatCustomerBizServiceClient().verifyCodeLogin(verifyCodeRequest);
         } catch (SoaException e) {
             logger.error(e.getMessage(),e);
