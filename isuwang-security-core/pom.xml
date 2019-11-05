@@ -68,27 +68,6 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
 
-        <!--dapeng-->
-        <dependency>
-            <groupId>com.github.dapeng</groupId>
-            <artifactId>dapeng-client-netty</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.isuwang</groupId>
-            <artifactId>dapeng-scala-dbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.influxdb</groupId>
-            <artifactId>influxdb-java</artifactId>
-        </dependency>
-
-        <!--soa-->
-        <dependency>
-            <groupId>com.isuwang</groupId>
-            <artifactId>crm-company-api</artifactId>
-        </dependency>
     </dependencies>
 
 

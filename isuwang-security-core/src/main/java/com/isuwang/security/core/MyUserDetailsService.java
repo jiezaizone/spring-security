@@ -1,10 +1,7 @@
 package com.isuwang.security.core;
 
-import com.github.dapeng.core.SoaException;
 import com.isuwang.security.core.domain.LoginUser;
 import com.isuwang.security.core.service.UserService;
-import com.isuwang.soa.crmdb.customer.CustomerServiceClient;
-import com.isuwang.soa.crmdb.customer.domain.TCustomer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +31,7 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         //根据用户名查找用户信息
         logger.info("form user login name:"+username);
 
-        LoginUser userDetails = null;
-        try {
-            userDetails =  buildUser(username);
-        } catch (SoaException e) {
-            logger.error(e.getMsg(),e);
-        }
+        LoginUser userDetails = buildUser(username);;
         return userDetails;
     }
 
@@ -48,29 +40,21 @@ public class MyUserDetailsService implements UserDetailsService , SocialUserDeta
         //根据用户名查找用户信息
         logger.info("socile user login userId:"+userId);
 
-        SocialUserDetails userDetails = null;
-        try {
-            userDetails =  buildUser(userId);
-        } catch (SoaException e) {
-            logger.error(e.getMsg(),e);
-        }
+        SocialUserDetails userDetails = buildUser(userId);;
 
         return userDetails;
     }
 
-    private LoginUser buildUser(String username) throws SoaException {
-//        // TODO 模拟数据库登录方式
-//        logger.info("登录用户名：" + userId);
-//        String password = passwordEncoder.encode("425477");
-//        String password = 435477
+    private LoginUser buildUser(String username) {
 
-        TCustomer customer =new CustomerServiceClient().findCustomerByLoginName(username);
-//        User user = userService.getUserByUserName(username);
-        logger.info("数据库密码是：" + customer.password);
-        LoginUser loginUser =  new LoginUser(username, customer.password,
-                customer.disable == 0 ? true : false, true, true, true,
+
+        // TODO 获取用户信息，封装User对象，可以自行定义（调用接口、自己查询或是默认对象皆可）。默认返回固定对象
+            // TODO 模拟数据库登录方式,任意登录名，密码123456
+        logger.info("登录用户名：" + username);
+        String password = passwordEncoder.encode("123456");
+        LoginUser loginUser =  new LoginUser(username, password,
+                true, true, true, true,
                 AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
-        loginUser.setCustomerId(customer.getId());
         return loginUser;
     }
 }

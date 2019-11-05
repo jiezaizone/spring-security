@@ -27,8 +27,8 @@ public class SecurityCoreConfig {
     RedisConnectionFactory redisConnectionFactory;
 
     /**
-     * 配置一个密码加密器
-     * 加密方式在这里配置，这里配置加密方式为MD5
+     * TODO 配置一个密码加密器，可自定修改加密方式
+     * 这里配置加密方式为MD5
      * @return
      */
     @Bean

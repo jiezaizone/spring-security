@@ -1,13 +1,9 @@
 package com.isuwang.security.core.vaildate.code.sms;
 
-import com.github.dapeng.core.SoaException;
 import com.isuwang.security.core.properties.SecurityConstants;
 import com.isuwang.security.core.vaildate.code.ValidateCode;
 import com.isuwang.security.core.vaildate.code.AbstractValidateCodeProcessor;
 import com.isuwang.security.core.vaildate.code.ValidateCodeException;
-import com.isuwang.soa.crmdb.company.domain.wechatcustomer.LoginResponse;
-import com.isuwang.soa.crmdb.company.domain.wechatcustomer.WechatLoginByVerifyCodeRequest;
-import com.isuwang.soa.crmdb.wechatcustomer.WechatCustomerBizServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,20 +24,20 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
     @Autowired
     private SmsCodeSender smsCodeSender;
 
-    // 重写短信校验码校验方法 （改用dapeng接口调用）
+    // 重写短信校验码校验方法
     @Override
     protected void send(ServletWebRequest request, ValidateCode validateCode) throws Exception {
         String mobile = ServletRequestUtils.getRequiredStringParameter(request.getRequest(), "mobile");
         smsCodeSender.send(mobile, validateCode.getCode());
     }
 
-    // 重写短信验证码校验方法 （改用dapeng接口调用）
+    // 重写短信验证码校验方法
     @Override
     public void validate(ServletWebRequest request) {
+        // TODO 短信校验借口默认只校验 mobile、smsCode 参数，如需要其它参数校验，可自行添加
+        // String source = "0"; //请求来源
         String mobile = "";
         String smsCode = "";
-        String openId = "";
-        int source = 0;
         try {
             mobile = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
         } catch (ServletRequestBindingException e) {
@@ -54,29 +50,8 @@ public class SmsValidateCodeProcessor extends AbstractValidateCodeProcessor<Vali
             logger.error(e.getMessage(),e);
             throw new ValidateCodeException("获取验证码的值失败");
         }
-        try {
-            openId = ServletRequestUtils.getStringParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_OPENID);
-        } catch (ServletRequestBindingException e) {
-            logger.error(e.getMessage(),e);
-        }
-        try {
-            source = ServletRequestUtils.getIntParameter(request.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_SOURCE);
-        } catch (ServletRequestBindingException e) {
-            logger.error(e.getMessage(),e);
-            throw new ValidateCodeException("获取来源的值失败");
-        }
 
-        try {
-            WechatLoginByVerifyCodeRequest verifyCodeRequest = new WechatLoginByVerifyCodeRequest();
-            verifyCodeRequest.phone(mobile);
-            verifyCodeRequest.verifyCode(smsCode);
-            verifyCodeRequest.wechatOpenid(openId);
-            verifyCodeRequest.source(source);
-            LoginResponse loginResponse = new WechatCustomerBizServiceClient().verifyCodeLogin(verifyCodeRequest);
-        } catch (SoaException e) {
-            logger.error(e.getMessage(),e);
-            throw new ValidateCodeException(e.getMsg());
-        }
-        // 短信验证码不校验，默认通过
+        // TODO 自定义短信验证码校验逻辑。注：若校验短信验证码不校验，默认通过
+        // 短信验证码校验逻辑
     }
 }
