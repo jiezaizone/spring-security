@@ -23,8 +23,6 @@ import org.springframework.util.DigestUtils;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityCoreConfig {
 
-    @Autowired
-    RedisConnectionFactory redisConnectionFactory;
 
     /**
      * TODO 配置一个密码加密器，可自定修改加密方式
@@ -50,18 +48,5 @@ public class SecurityCoreConfig {
         return md5PasswordEncoder;
     }
 
-    /**
-     * 配置TokenStore，默认为RedisTokenStore
-     * @return
-     */
-    @Bean
-    public TokenStore tokenStore(){
-        return new RedisTokenStore(redisConnectionFactory);
-    }
 
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
-
-    }
 }

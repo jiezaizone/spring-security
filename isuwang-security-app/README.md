@@ -61,13 +61,13 @@ http://localhost:7070/oauth/revoke-token?token=3c32b850-5b6a-44b8-952c-ec5426576
 >
 > 参数介绍
 >
-> 1、token
+> 
 >
 
 - ##获取当前登录用户
 
   ```http
-  http://localhost:7070/oauth/getCurrentUser?token=3c32b850-5b6a-44b8-952c-ec5426576a9b
+  http://localhost:7070/oauth/getCurrentUser
   ```
 
   

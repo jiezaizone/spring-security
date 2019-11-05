@@ -18,6 +18,8 @@ public class SecurityProperties {
     // 第三方登录配置
     private SocialProperties social = new SocialProperties();
 
+    private Oauth2Properties oauth2 = new Oauth2Properties();
+
     public BrowserProperties getBrowser() {
         return browser;
     }
@@ -40,5 +42,13 @@ public class SecurityProperties {
 
     public void setSocial(SocialProperties social) {
         this.social = social;
+    }
+
+    public Oauth2Properties getOauth2() {
+        return oauth2;
+    }
+
+    public void setOauth2(Oauth2Properties oauth2) {
+        this.oauth2 = oauth2;
     }
 }
