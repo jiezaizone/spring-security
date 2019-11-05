@@ -44,6 +44,8 @@ public class IsuwangAuthorizationServerConfig extends AuthorizationServerConfigu
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        // TODO 配置有效登录用户，可自行更改为jdbc连接方式，也可自行修改为内存方式
+        // 默认内存方式
 //            clients.jdbc(dataSource);
         clients.inMemory()
                 .withClient("isuwang").secret("isuwang-security")

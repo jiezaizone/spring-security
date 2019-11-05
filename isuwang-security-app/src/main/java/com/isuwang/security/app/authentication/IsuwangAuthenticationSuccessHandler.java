@@ -86,12 +86,6 @@ public class IsuwangAuthenticationSuccessHandler extends SavedRequestAwareAuthen
 
         OAuth2AccessToken token = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
-        //登录用户customerId存入redis，用以做在线用户统计
-        LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String loginUserRedisKey ="isuwang_security:customer:" + clientId + ":" + loginUser.getCustomerId();
-        redisTemplate.opsForValue().set(loginUserRedisKey, loginUser.getCustomerId());
-        redisTemplate.expire(loginUserRedisKey, token.getExpiresIn(), TimeUnit.SECONDS);
-
         /*
          * 登录返回类型是JSON，则以json返回,否则调用父类方法跳转
          */

@@ -6,6 +6,9 @@ import org.springframework.social.security.SocialUserDetails;
 
 import java.util.Collection;
 
+/**
+ * TODO 自定义扩展 User属性
+ */
 public class LoginUser extends SocialUser {
     private Integer customerId;
 

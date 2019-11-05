@@ -1,4 +1,4 @@
-package com.isuwang.security.app.contorller;
+package com.isuwang.security.core.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
